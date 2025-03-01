@@ -7,7 +7,7 @@ A PHP client library for interacting with the TÜRMOB e-fatura API.
 You can install the package via composer:
 
 ```bash
-composer require paddlesteamer/turmob-client
+composer require Enduranlar/turmob-efatura
 ```
 
 ## Requirements
