@@ -1,0 +1,24 @@
+{
+    "name": "paddlesteamer/turmob-client",
+    "description": "A PHP client for interacting with the Turmob e-fatura API",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Umut Erdal",
+            "email": "umut@enduranlar.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.2",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "TurmobClient\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+} 
