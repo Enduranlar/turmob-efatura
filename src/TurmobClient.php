@@ -7,6 +7,8 @@ use DateTime;
 use DateTimeZone;
 use DOMDocument;
 
+require_once 'CityMappings.php';
+
 class TurmobClient {
     private $baseUrl = 'https://turmobefatura.luca.com.tr';
     private $cookie_file;
@@ -216,12 +218,12 @@ class TurmobClient {
         }
 
         // Find matching county
-        $countyName = mb_strtoupper($countyName, 'UTF-8');
+        $countyName = CityMappings::fixName($countyName);
         foreach ($counties as $county) {
-            if (mb_strtoupper($county['IlceAdi'], 'UTF-8') === $countyName) {
+            if (CityMappings::fixName($county['IlceAdi']) === $countyName) {
                 return [
                     'cityId' => $cityId,
-                    'countyId' => $county['IlceKod']
+                    'countyId' => $county['IdIlce']
                 ];
             }
         }
@@ -242,6 +244,8 @@ class TurmobClient {
 
         // Get city and county IDs
         $location = $this->getCountyId($ilAdi, $ilceAdi);
+
+        var_dump($location);
 
         // Get the verification token from Invoice/Create page
         $html = $this->request($this->baseUrl . '/Invoice/Create');
@@ -286,8 +290,16 @@ class TurmobClient {
             CURLOPT_HEADER => false
         ]);
 
-        // Return the plain string response containing the invoice ID
-        return trim($response); // Trim to remove any extra whitespace or newlines
+        // Decode JSON response
+        $responseData = json_decode($response, true);
+        
+        // Check for error
+        if (!empty($responseData['error'])) {
+            throw new Exception($responseData['error']);
+        }
+
+        // Return the recipient ID
+        return $responseData['IdAlici'];
     }
 
     private function getVerificationTokenFromCreateQuick() {
