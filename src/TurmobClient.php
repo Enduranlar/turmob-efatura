@@ -228,7 +228,10 @@ class TurmobClient {
             }
         }
 
-        throw new Exception("County not found: $countyName in city $cityName");
+        return [
+            'cityId' => $cityId,
+            'countyId' => $counties[0]['IdIlce']
+        ];
     }
 
     public function getInvoiceUser($aliciAdi, $vknTckn, $ilceAdi, $ilAdi) {
