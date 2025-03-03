@@ -159,7 +159,7 @@ class TurmobClient {
         $result = $this->request($this->baseUrl . '/Account/Login', [
             CURLOPT_POST => true,
             CURLOPT_POSTFIELDS => $postData,
-            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_FOLLOWLOCATION => false,
             CURLOPT_HEADER => true
         ], true);
 
