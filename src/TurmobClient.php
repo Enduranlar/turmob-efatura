@@ -245,8 +245,6 @@ class TurmobClient {
         // Get city and county IDs
         $location = $this->getCountyId($ilAdi, $ilceAdi);
 
-        var_dump($location);
-
         // Get the verification token from Invoice/Create page
         $html = $this->request($this->baseUrl . '/Invoice/Create');
 
@@ -390,7 +388,11 @@ class TurmobClient {
             CURLOPT_HEADER => false
         ]);
 
-        // Return the plain string response containing the invoice ID
-        return trim($response); // Trim to remove any extra whitespace or newlines
+        // Trim and validate the invoice ID response
+        $invoiceId = trim($response, " \t\n\r\0\x0B\"");
+        if (strlen($invoiceId) !== 16) {
+            return false;
+        }
+        return $invoiceId;
     }
 } 
